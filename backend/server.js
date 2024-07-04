@@ -3,6 +3,8 @@ const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require('jsonwebtoken');
+const e = require('express');
+const bcrypt = require('bcrypt');
 
 require('dotenv').config();
 
@@ -111,7 +113,54 @@ app.get('/api/applications', async (req, res) => {
     }
 });
 
+// POST endpoint to register a new user. This endpoint is used for email/password registration. Hash the password before storing it in the database to ensure security.
+app.post('/api/register', async (req, res) => {
+    const { email, password, firstName, lastName } = req.body;
+    console.log(email, password, firstName, lastName);
+    if (!email || !password || !firstName || !lastName) {
+        return res.status(400).send('Email, password, and names are required');
+    }
+    // Check if user already exists
+    let user = await users.findOne({ email: email });
+    if (user) {
+        return res.status(400).send('User already exists');
+    }
+    // Hash the password before storing it in the database
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    user = await users.insertOne({
+        _id: new ObjectId(),
+        email: email,
+        password: hashedPassword,
+        name: firstName + ' ' + lastName,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    });
+    const userToken = jwt.sign({ userId: user._id, name: user.name, email: user.email }, jwtSecret, { expiresIn: '24h' });
+    res.status(200).json({ token: userToken });
+});
+
+//Post endpoint to login user
 app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).send('Email and password are required');
+    }
+    const user = await users.findOne({ email: email });
+    if (!user) {
+        return res.status(404).send('User not found');
+    }
+    // Compare the hashed password with the password provided by the user
+    if (bcrypt.compareSync(password, user.password)) {
+        // Generate JWT token
+        const userToken = jwt.sign({ userId: user._id, name: user.name, email: user.email }, jwtSecret, { expiresIn: '24h' });
+        res.status(200).json({ token: userToken });
+    }
+    return res.status(401).send('Invalid credentials');
+});
+
+
+
+app.post('/api/googlelogin', async (req, res) => {
     const { token } = req.body;
     if (!token) {
         return res.status(400).send('Token is required');

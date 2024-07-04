@@ -33,15 +33,7 @@ function RegisterPage() {
     };
   });
   return (
-    <>
-      <ExamplesNavbar />
-      <div
-        className="page-header"
-        style={{
-          backgroundImage: "url(" + require("assets/img/login-image.jpg") + ")",
-        }}
-      >
-        <div className="filter" />
+
         <Container>
           <Row>
             <Col className="ml-auto mr-auto" lg="4">
@@ -96,14 +88,6 @@ function RegisterPage() {
             </Col>
           </Row>
         </Container>
-        <div className="footer register-footer text-center">
-          <h6>
-            © {new Date().getFullYear()}, made with{" "}
-            <i className="fa fa-heart heart" /> by Creative Tim
-          </h6>
-        </div>
-      </div>
-    </>
   );
 }
 
