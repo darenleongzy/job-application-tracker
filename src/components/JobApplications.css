@@ -1,0 +1,22 @@
+.job-applications-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.job-application {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.job-application h2 {
+  margin-top: 0;
+}
+
+.job-application p {
+  margin: 5px 0;
+}
