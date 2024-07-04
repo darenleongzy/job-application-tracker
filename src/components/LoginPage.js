@@ -27,7 +27,7 @@ const LoginPage = () => {
             const decoded = jwtDecode(jwtToken);
             setUser(decoded);
             localStorage.setItem('jwtToken', jwtToken);
-            navigate('/');
+            navigate('/home');
         } catch (error) {
             console.error('Login Failed:', error);
         } finally {

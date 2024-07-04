@@ -8,8 +8,7 @@ import LoginPage from './components/LoginPage';
 import { UserProvider } from './context/UserContext';
 import PrivateRoute from './PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
-import CustomAppBar from './components/AppBar'; // Import the AppBar component
-import LandingPage from './components/LandingPage';
+import Index from './views/Index';
 
 
 function App() {
@@ -18,9 +17,8 @@ function App() {
       <UserProvider>
         <ApplicationProvider>
           <Router>
-            <CustomAppBar /> {/* Include the AppBar component here */}
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" element={<Index />} />
               <Route path="/home" element={<PrivateRoute><JobApplicationsList /></PrivateRoute>} />
               <Route path="/add" element={<PrivateRoute><AddApplicationForm /></PrivateRoute>} />
               <Route path="/login" element={<LoginPage />} />

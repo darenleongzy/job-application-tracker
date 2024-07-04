@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import ThemedApp from './ThemedApp';
+import App from './App';
+// styles
+import "bootstrap/scss/bootstrap.scss";
+import "assets/scss/paper-kit.scss";
+import "assets/demo/demo.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -12,7 +15,7 @@ const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 root.render(
   <GoogleOAuthProvider clientId={clientId}>
     <React.StrictMode>
-      <ThemedApp />
+      <App />
     </React.StrictMode>
   </GoogleOAuthProvider>
 );
